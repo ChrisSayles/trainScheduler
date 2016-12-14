@@ -1,3 +1,4 @@
+//Firebase Key
 var config = {
     apiKey: "AIzaSyBICrZtfwPA18DRqRuXQ2IDlg6fpTV3XZE",
     authDomain: "trainscheduler-28399.firebaseapp.com",
@@ -7,13 +8,14 @@ var config = {
   };
   firebase.initializeApp(config);
 
+//List of Variables
 var database = firebase.database();
 var trainName;
 var destination;
 var firstTrainTime;
 var frequency;
 
-
+//When submit button is clicked function will run
 $("#submit").on("click", function(event) {
 
 
@@ -33,7 +35,7 @@ $("#submit").on("click", function(event) {
 
 
 
-
+//Conversion of time formats and new variables that will be used for calculatoins
 database.ref().on("child_added", function(snap) {
     //This will convert and calculate difference of today from start date
     var trainTime = snap.val().firstTrainTime;
@@ -46,16 +48,7 @@ database.ref().on("child_added", function(snap) {
     var nextArrival = moment().add(timeLeft, "m").format("HH:mm");
    
 
-
-    // 4:25 
-    // frequency is 5 minutes
-    // currentTime  frequency = 
-
-     // moment().add(7 , 'days');
-    //this will calculate the rate * months worked
-    // var totalBilled = monthsWorked * snap.val().monthlyRate;
-
-
+//Append the new data that is entered into the text fields
     var newRow = $("<tr>");
     newRow.append($("<td>" + snap.val().trainName + "</td>"));
     newRow.append($("<td>" + snap.val().destination + "</td>"));
@@ -63,7 +56,6 @@ database.ref().on("child_added", function(snap) {
     newRow.append($("<td>" + nextArrival + "</td>"));
     newRow.append($("<td>" + timeLeft + "</td>"));
 
-    // newRow.append($("<td>" + monthsWorked + "</td>"));
-    // newRow.append($("<td>" + totalBilled + "</td>"));
+    
     $("tbody").append(newRow);
 });
